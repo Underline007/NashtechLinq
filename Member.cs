@@ -17,6 +17,7 @@ namespace NashtechLinqDay2
         public string Birthplace { get; set; }
         public int Age { get; set; }
         public bool IsGraduated { get; set; }
+        public string FullName => $"{FirstName} {LastName}";
 
         public Member(string firstName, string lastName, string gender, DateTime dateOfBirth, string phoneNumber, string birthplace, bool isGraduated)
         {
@@ -33,6 +34,17 @@ namespace NashtechLinqDay2
         {
             Console.WriteLine($"First Name: {FirstName}");
             Console.WriteLine($"Last Name: {LastName}");
+            Console.WriteLine($"Gender: {Gender}");
+            Console.WriteLine($"Date of Birth: {DateOfBirth.ToString("yyyy-MM-dd")}");
+            Console.WriteLine($"Phone Number: {PhoneNumber}");
+            Console.WriteLine($"Birthplace: {Birthplace}");
+            Console.WriteLine($"Age: {Age}");
+            Console.WriteLine($"Is Graduated: {(IsGraduated ? "Yes" : "No")}");
+        }
+
+        public void DisplayMemberWithFullName()
+        {
+            Console.WriteLine($"FullName: {FullName}");
             Console.WriteLine($"Gender: {Gender}");
             Console.WriteLine($"Date of Birth: {DateOfBirth.ToString("yyyy-MM-dd")}");
             Console.WriteLine($"Phone Number: {PhoneNumber}");

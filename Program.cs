@@ -4,6 +4,7 @@
     {
         static void Main(string[] args)
         {
+            int userChoice;
             List<Member> members = new List<Member>();
             members.Add(new Member("John", "Doe", "Male", new DateTime(1989, 5, 15), "123-456-7890", "Ha Noi", true));
             members.Add(new Member("Jane", "Smith", "Female", new DateTime(2000, 8, 25), "987-654-3210", "Ha Noi", false));
@@ -11,8 +12,6 @@
             members.Add(new Member("Peter", "Smith", "Female", new DateTime(2001, 8, 25), "987-654-3210", "Los Angeles", false));
             members.Add(new Member("Fake", "Doe", "Male", new DateTime(1979, 3, 15), "123-456-7890", "New York", true));
             members.Add(new Member("David", "Smith", "Female", new DateTime(2001, 8, 25), "987-654-3210", "Los Angeles", false));
-
-            int choice;
             //UI
             DisplayMenu();
             try
@@ -20,50 +19,45 @@
                 do
                 {
                     Console.Write("\nYour choice: ");
-                    while (!int.TryParse(Console.ReadLine(), out choice))
+                    while (!int.TryParse(Console.ReadLine(), out userChoice))
                     {
                         Console.WriteLine("Invalid input. Please enter a valid integer.");
                         Console.Write("Your choice: ");
                     }
-
-                    Console.WriteLine();
-
-                    switch (choice)
+                    switch (userChoice)
                     {
                         case 1:
-                            MaleMembers();
+                            DisplayMaleMembers();
                             break;
                         case 2:
                             OldestMember();
                             break;
                         case 3:
-                            ListMemberWithFullName();
+                            ShowListMemberWithFullName();
                             break;
                         case 4:
-                            ThreeListAfterBeforeAndEqual2000();
+                            ShowThreeListAfterBeforeAndEqual2000();
                             break;
                         case 5:
-                            FirstMemberBornInHaNoi();
+                            DisplayFirstMemberBornInHaNoi();
                             break;
                         case 6:
                             Console.Clear();
                             break;
                         case 7:
-                            Console.WriteLine("\n\nSee You Again! ");
+                            Console.WriteLine("\nSee You Again! ");
                             break;
                         default:
                             Console.WriteLine("\nWrong choice");
                             break;
                     }
                 }
-                while (choice != 7);
+                while (userChoice != 7);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message.ToString());
             }
-
-
             //Display Menu
             void DisplayMenu()
             {
@@ -75,10 +69,8 @@
                 Console.WriteLine("6. Clean Screen");
                 Console.WriteLine("7. Exit");
             }
-
-
             //Male Members
-            void MaleMembers()
+            void DisplayMaleMembers()
             {
                 Console.WriteLine("Members who are Male: ");
                 foreach (Member member in members.Where(m => m.Gender == "Male"))
@@ -87,36 +79,30 @@
                     Console.WriteLine();
                 }
             }
-
             // Oldest Member
             void OldestMember()
             {
-                var GetOldestMember = members.OrderByDescending(m => m.Age).ThenBy(m=>m.DateOfBirth).FirstOrDefault();
-                GetOldestMember.DisplayMember();
-            }
-
-            // List Member With Full Name
-            void ListMemberWithFullName()
-            {
-                var GetListMemberWithFullName = 
-                    members.Select(m => $"FullName: {m.FirstName} {m.LastName} \n " +
-                                        $"Gender: {m.Gender} \n " +
-                                        $"Date of birth: {m.DateOfBirth.ToString("yyyy-MM-dd")} \n " +
-                                        $"Phone Number {m.PhoneNumber}  \n " +
-                                        $"Birthplace: {m.Birthplace} \n " +
-                                        $"Age: {m.Age} \n " +
-                                        $"Graduated: {(m.IsGraduated ? "Yes" : "No")}")
-                                            .ToList();
-
-                foreach (var member in GetListMemberWithFullName)
+                var ShowOldestMember = members.OrderByDescending(m => m.Age).ThenBy(m => m.DateOfBirth).FirstOrDefault();
+                if (ShowOldestMember != null)
                 {
-                    Console.WriteLine(member);
+                    ShowOldestMember.DisplayMember();
+                }
+                else
+                {
+                    Console.WriteLine("No members found.");
                 }
             }
-
-
+            // List Member With Full Name
+            void ShowListMemberWithFullName()
+            {  
+                // Member with FullName
+                foreach (Member member in members)
+                {
+                    member.DisplayMemberWithFullName();
+                }
+            }
             // 3 List (<2000, 2000 and >2000)
-            void ThreeListAfterBeforeAndEqual2000()
+            void ShowThreeListAfterBeforeAndEqual2000()
             {
                 foreach (Member member in members.Where(m => m.DateOfBirth.Year == 2000))
                 {
@@ -138,16 +124,13 @@
                     Console.WriteLine();
                 }
             }
-
             //First Member Was Born In Ha Noi
-            void FirstMemberBornInHaNoi()
+            void DisplayFirstMemberBornInHaNoi()
             {
                 var firstMemberBornInHaNoi = members.FirstOrDefault(m => m.Birthplace == "Ha Noi");
                 Console.WriteLine(firstMemberBornInHaNoi != null ? "First member born in Ha Noi: " : "Not found member born in Ha Noi");
                 firstMemberBornInHaNoi?.DisplayMember();
             }
-
-
         }
     }
 }
